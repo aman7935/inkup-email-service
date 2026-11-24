@@ -1,0 +1,17 @@
+{% if customer_name %}Hi {{ customer_name }},{% else %}Hi there,{% endif %}
+
+Your order #{{ order_label }} was delivered a few days ago. We would love to hear what you think.
+
+Leave a review:
+{% for item in items %}
+- {{ item.name }}: {{ item.review_url }}
+{% endfor %}
+
+It only takes a minute, and every review is read by a real person here.
+
+Visit {{ store_name }}: {{ storefront_url }}
+
+You are receiving this email because you placed an order with {{ store_name }}.
+{% if support_email %}Questions? Contact {{ support_email }}.{% else %}Questions? Just reply to this email.{% endif %}
+
+(c) {{ year }} {{ store_name }}. All rights reserved.

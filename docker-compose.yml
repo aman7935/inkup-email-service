@@ -1,0 +1,16 @@
+# One container. The SQLite database (scheduled emails) is kept in a named volume.
+services:
+  app:
+    build: .
+    image: inkup-email-service:latest
+    env_file: .env
+    environment:
+      DATABASE_PATH: /app/data/inkup.db
+    ports:
+      - "8000:8000"
+    volumes:
+      - app-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  app-data:

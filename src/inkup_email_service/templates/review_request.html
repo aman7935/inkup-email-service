@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="x-apple-disable-message-reformatting">
+  <title>{{ subject }}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f5f3ef;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
+  <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">
+    Your order arrived a few days ago. Tell us how we did — it only takes a minute.
+  </div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f5f3ef;">
+    <tr>
+      <td align="center" style="padding:32px 16px;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;background-color:#ffffff;border:1px solid #e8e2d9;border-radius:14px;overflow:hidden;">
+          <tr>
+            <td style="padding:28px 32px 8px 32px;">
+              <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:22px;line-height:30px;font-weight:700;color:#231f1a;letter-spacing:-0.2px;">
+                {{ store_name }}
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:8px 32px 0 32px;">
+              <h1 style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:38px;font-weight:700;color:#231f1a;letter-spacing:-0.5px;">
+                How did we do{% if customer_name %}, {{ customer_name }}{% endif %}?
+              </h1>
+              <p style="margin:16px 0 0 0;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:25px;color:#57504a;">
+                Your order <strong style="color:#231f1a;">#{{ order_label }}</strong> was delivered a few days ago.
+                We would love to hear what you think — your review helps other shoppers and helps us make better pieces.
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:24px 32px 8px 32px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                {% for item in items %}
+                <tr>
+                  <td style="padding:14px 0;border-top:1px solid #eee9e1;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td style="vertical-align:middle;padding-right:16px;">
+                          <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:22px;font-weight:700;color:#231f1a;">
+                            {{ item.name }}
+                          </p>
+                        </td>
+                        <td align="right" style="vertical-align:middle;white-space:nowrap;">
+                          <a href="{{ item.review_url }}" style="display:inline-block;padding:11px 18px;background-color:#231f1a;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:18px;font-weight:700;text-decoration:none;border-radius:999px;">
+                            Write a review
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                {% endfor %}
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:16px 32px 0 32px;">
+              <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:22px;color:#7a7269;">
+                It only takes a minute, and every review is read by a real person here.
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:28px 32px 32px 32px;">
+              <a href="{{ storefront_url }}" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;color:#231f1a;font-weight:700;text-decoration:underline;">
+                Visit {{ store_name }}
+              </a>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:20px 32px 28px 32px;background-color:#faf8f4;border-top:1px solid #eee9e1;">
+              <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:19px;color:#8a8178;">
+                You are receiving this email because you placed an order with {{ store_name }}.
+                {% if support_email %}Questions? Reply to this email or contact <a href="mailto:{{ support_email }}" style="color:#8a8178;text-decoration:underline;">{{ support_email }}</a>.{% else %}Questions? Just reply to this email.{% endif %}
+              </p>
+              <p style="margin:8px 0 0 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:19px;color:#b0a79e;">
+                &copy; {{ year }} {{ store_name }}. All rights reserved.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

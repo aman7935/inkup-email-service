@@ -1,0 +1,51 @@
+# Render Blueprint: one web service + a 1 GB disk for the SQLite database.
+# Render -> New -> Blueprint -> pick this repo. You will be asked for every
+# value marked `sync: false`.
+services:
+  - type: web
+    name: inkup-reviews          # becomes https://inkup-reviews.onrender.com (keep "sr"/"kr" out of it)
+    runtime: python
+    plan: starter                # paid: free services sleep and cannot have a disk
+    region: singapore            # closest Render region to India
+    buildCommand: pip install uv && uv sync --frozen --no-dev
+    startCommand: .venv/bin/python -m inkup_email_service
+    healthCheckPath: /health/live
+    numInstances: 1              # must stay 1: the email sender runs inside the app
+    disk:
+      name: data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DATABASE_PATH
+        value: /var/data/inkup.db
+      - key: ENABLE_DOCS
+        value: "false"
+      - key: LOG_JSON
+        value: "true"
+      - key: REVIEW_DELAY_SECONDS
+        value: "259200"
+      # --- secrets / store details (filled in on Render) ---
+      - key: WEBHOOK_TOKEN
+        sync: false
+      - key: SHIPROCKET_API_EMAIL
+        sync: false
+      - key: SHIPROCKET_API_PASSWORD
+        sync: false
+      - key: SHOPIFY_STORE_DOMAIN
+        sync: false
+      - key: SHOPIFY_CLIENT_ID
+        sync: false
+      - key: SHOPIFY_CLIENT_SECRET
+        sync: false
+      - key: STOREFRONT_BASE_URL
+        sync: false
+      - key: STORE_NAME
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: RESEND_FROM_EMAIL
+        sync: false
+      - key: RESEND_FROM_NAME
+        sync: false
