@@ -19,6 +19,7 @@ WEBHOOK_TOKEN = "test-token"
 def isolated_settings(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> Iterator[None]:
     # Never let the developer's real .env (keys, passwords) leak into tests.
     monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("DATABASE_URL", raising=False)
     monkeypatch.setenv("DATABASE_PATH", str(tmp_path / "test.db"))
     monkeypatch.setenv("SENDER_ENABLED", "false")
     monkeypatch.setenv("WEBHOOK_TOKEN", WEBHOOK_TOKEN)

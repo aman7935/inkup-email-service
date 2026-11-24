@@ -48,7 +48,7 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
             "environment": settings.environment,
             "storefront_url": settings.storefront_url,
             "review_delay_seconds": settings.review_delay_seconds,
-            "database_path": settings.database_path,
+            "database": get_store().backend,
             "sender_enabled": settings.sender_enabled,
         },
     )
@@ -57,6 +57,7 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
         sender.cancel()
         with contextlib.suppress(asyncio.CancelledError):
             await sender
+    get_store().close()
     logger.info("service_stopped")
 
 

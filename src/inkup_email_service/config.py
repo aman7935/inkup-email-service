@@ -38,8 +38,10 @@ class Settings(BaseSettings):
     api_host: str = "0.0.0.0"
     api_port: int = 8000
 
-    # SQLite file holding delivered orders until their review email is sent.
-    # On Render, point this at the persistent disk (e.g. /var/data/inkup.db).
+    # Where delivered orders wait for their review email.
+    # DATABASE_URL (Postgres, e.g. Neon) is used when set; otherwise a local
+    # SQLite file at DATABASE_PATH.
+    database_url: SecretStr | None = None
     database_path: str = "data/inkup.db"
 
     # Webhook receiver
@@ -107,6 +109,7 @@ class Settings(BaseSettings):
 
     @field_validator(
         "webhook_token",
+        "database_url",
         "resend_api_key",
         "shopify_admin_api_token",
         "shopify_client_secret",

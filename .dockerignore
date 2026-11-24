@@ -16,3 +16,8 @@ tests
 Dockerfile
 docker-compose.yml
 Makefile
+node_modules
+.neon
+neon.ts
+package.json
+package-lock.json

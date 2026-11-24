@@ -1,31 +1,32 @@
-# Render Blueprint: one web service + a 1 GB disk for the SQLite database.
+# Render Blueprint: one free web service. Scheduled emails are stored in Neon
+# Postgres (DATABASE_URL), because free services have no disk.
 # Render -> New -> Blueprint -> pick this repo. You will be asked for every
 # value marked `sync: false`.
+# Free services sleep after 15 min without traffic: point a free pinger
+# (e.g. cron-job.org) at https://<url>/health/live every 10 minutes.
 services:
   - type: web
     name: inkup-reviews          # becomes https://inkup-reviews.onrender.com (keep "sr"/"kr" out of it)
     runtime: python
-    plan: starter                # paid: free services sleep and cannot have a disk
-    region: singapore            # closest Render region to India
+    plan: free
+    region: ohio                 # same region as the Neon database (us-east-2)
     buildCommand: pip install uv && uv sync --frozen --no-dev
     startCommand: .venv/bin/python -m inkup_email_service
     healthCheckPath: /health/live
     numInstances: 1              # must stay 1: the email sender runs inside the app
-    disk:
-      name: data
-      mountPath: /var/data
-      sizeGB: 1
     envVars:
       - key: ENVIRONMENT
         value: production
-      - key: DATABASE_PATH
-        value: /var/data/inkup.db
+      - key: DATABASE_URL          # Neon connection string (postgresql://...)
+        sync: false
       - key: ENABLE_DOCS
         value: "false"
       - key: LOG_JSON
         value: "true"
       - key: REVIEW_DELAY_SECONDS
         value: "259200"
+      - key: REVIEW_CHECK_INTERVAL_SECONDS   # 30 min, so Neon's free compute can sleep between checks
+        value: "1800"
       # --- secrets / store details (filled in on Render) ---
       - key: WEBHOOK_TOKEN
         sync: false
